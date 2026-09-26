@@ -1,0 +1,16 @@
+.DS_Store
+Thumbs.db
+*.log
+.env
+.vscode/
+
+# dados pessoais: backups de pesagens NUNCA vão para o GitHub
+backup*.json
+*.csv
+
+# chave de assinatura do app Android: NUNCA publicar
+*.keystore
+*.jks
+signing-key-info.txt
+chave-assinatura/
+*.zip
