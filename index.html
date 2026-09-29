@@ -243,16 +243,16 @@ select{font:inherit;color:var(--ink);background:var(--surface);border:1px solid 
   <section class="two">
     <div class="panel">
       <h2 style="margin-bottom:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Registro</h2>
-      <form id="form" autocomplete="off">
+      <form id="form" autocomplete="off" novalidate>
         <div class="fields">
           <div class="field"><label for="fData">Data</label><input type="date" id="fData" required></div>
-          <div class="field"><label for="fPeso">Peso (kg)</label><input type="number" id="fPeso" step="0.1" min="2" max="300" inputmode="decimal" required placeholder="0,0"></div>
-          <div class="field"><label for="fGord">Gordura corporal (%)</label><input type="number" id="fGord" step="0.1" min="3" max="70" inputmode="decimal" placeholder="opcional"></div>
-          <div class="field"><label for="fMeta">Idade metabólica</label><input type="number" id="fMeta" step="1" min="5" max="99" inputmode="numeric" placeholder="opcional"></div>
-          <div class="field"><label for="fVisc">Gordura visceral</label><input type="number" id="fVisc" step="0.5" min="1" max="60" inputmode="decimal" placeholder="opcional"></div>
-          <div class="field"><label for="fMusc">Massa muscular (kg)</label><input type="number" id="fMusc" step="0.1" min="5" max="150" inputmode="decimal" placeholder="opcional"></div>
-          <div class="field"><label for="fAgua">Água corporal (%)</label><input type="number" id="fAgua" step="0.1" min="20" max="80" inputmode="decimal" placeholder="opcional"></div>
-          <div class="field"><label for="fOsso">Massa óssea (kg)</label><input type="number" id="fOsso" step="0.1" min="0.5" max="10" inputmode="decimal" placeholder="opcional"></div>
+          <div class="field"><label for="fPeso">Peso (kg)</label><input type="number" id="fPeso" step="any" min="2" max="300" inputmode="decimal" required placeholder="0,0"></div>
+          <div class="field"><label for="fGord">Gordura corporal (%)</label><input type="number" id="fGord" step="any" min="3" max="70" inputmode="decimal" placeholder="opcional"></div>
+          <div class="field"><label for="fMeta">Idade metabólica</label><input type="number" id="fMeta" step="any" min="5" max="99" inputmode="numeric" placeholder="opcional"></div>
+          <div class="field"><label for="fVisc">Gordura visceral</label><input type="number" id="fVisc" step="any" min="1" max="60" inputmode="decimal" placeholder="opcional"></div>
+          <div class="field"><label for="fMusc">Massa muscular (kg)</label><input type="number" id="fMusc" step="any" min="5" max="150" inputmode="decimal" placeholder="opcional"></div>
+          <div class="field"><label for="fAgua">Água corporal (%)</label><input type="number" id="fAgua" step="any" min="20" max="80" inputmode="decimal" placeholder="opcional"></div>
+          <div class="field"><label for="fOsso">Massa óssea (kg)</label><input type="number" id="fOsso" step="any" min="0.5" max="10" inputmode="decimal" placeholder="opcional"></div>
           <div class="field full"><label for="fNota">Observação</label><input type="text" id="fNota" maxlength="140" placeholder="ex.: dia da aplicação, depois do fim de semana…"></div>
         </div>
         <div class="row">
@@ -280,8 +280,8 @@ select{font:inherit;color:var(--ink);background:var(--surface);border:1px solid 
         <div class="field"><label for="pNome">Nome</label><input id="pNome" type="text" maxlength="30" required></div>
         <div class="field"><label for="pSexo">Sexo</label><select id="pSexo" required><option value="">Escolha…</option><option value="M">Masculino</option><option value="F">Feminino</option></select></div>
         <div class="field"><label for="pNasc">Data de nascimento</label><input id="pNasc" type="date"></div>
-        <div class="field"><label for="pAlt">Altura (m)</label><input id="pAlt" type="number" step="0.01" min="0.5" max="2.4" inputmode="decimal" required></div>
-        <div class="field"><label for="pIni">Peso inicial (kg)</label><input id="pIni" type="number" step="0.1" inputmode="decimal" placeholder="usa o 1º registro se vazio"></div>
+        <div class="field"><label for="pAlt">Altura (m)</label><input id="pAlt" type="number" step="any" min="0.5" max="2.4" inputmode="decimal" required></div>
+        <div class="field"><label for="pIni">Peso inicial (kg)</label><input id="pIni" type="number" step="any" inputmode="decimal" placeholder="usa o 1º registro se vazio"></div>
         <div class="field"><label for="pMetas">Metas (kg, separadas por vírgula)</label><input id="pMetas" type="text" placeholder="ex.: 75, 70"></div>
         <div class="row full"><button class="btn primary" type="submit" id="profSave">Salvar perfil</button><button class="btn" type="button" id="profCancel" hidden>Cancelar</button><p class="msg" id="profMsg"></p></div>
       </form>
@@ -580,6 +580,7 @@ $("form").addEventListener("submit", async ev=>{
   const date = $("fData").value, peso = num("fPeso");
   if(!P()){ setMsg($("msg"),"Escolha ou crie a pessoa primeiro.","err"); return; }
   if(!date || !peso){ setMsg($("msg"),"Informe a data e o peso.","err"); return; }
+  if(peso<2 || peso>300){ setMsg($("msg"),"Confira o peso: parece digitado errado.","err"); return; }
   const doc = {perfil:cur, date, peso, nota:$("fNota").value.trim()||null, origem:pendingOrigin||"manual", criadoEm:new Date().toISOString()};
   FIELDS.forEach(([id,k])=>doc[k]=num(id));
   Object.keys(doc).forEach(k=>doc[k]===null && delete doc[k]);

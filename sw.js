@@ -1,6 +1,6 @@
 // Balança da Família: service worker só para o app abrir sem internet depois de instalado.
 // Guarda apenas os arquivos do próprio app. As pesagens ficam no aparelho e não passam por aqui.
-const CACHE = 'balanca-familia-v1';
+const CACHE = 'balanca-familia-v2';
 const ARQUIVOS = ['./', './index.html', './manifest.webmanifest',
   './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png'];
 self.addEventListener('install', e => {
